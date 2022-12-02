@@ -1,20 +1,12 @@
 package com.java.ex;
 
-import java.beans.Statement;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.swing.JFrame;
-import javax.swing.JPasswordField;
-
-import com.java.ex.MovieName;
-	
 
 public class DBController {	// DAO
 	static String url = "jdbc:mariadb://localhost:3306/javaproject";
@@ -26,6 +18,31 @@ public class DBController {	// DAO
 	Connection con = null;
 	PreparedStatement st = null;
 	ResultSet rs = null;
+	
+	
+	
+	public void ordergoods(Ordergoods order) {
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			con = DriverManager.getConnection(url,uid,pwd);
+			st = con.prepareStatement(
+					"insert into ordergoods(users,personcount, screeningplace,movietitle) values(?,?,?,?)");
+	
+			//hashcode 
+			System.out.println("db order"+order.getMovietitle());
+			
+			st.setString(1, order.getUsers());
+			st.setLong(2, order.getPersoncount());
+			st.setString(3,  order.getScreeningplace());
+			st.setString(4, order.getMovietitle());
+			
+			st.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void join(Member member)  {
 		try {
@@ -51,7 +68,36 @@ public class DBController {	// DAO
 		}
 		
 	}
+	
+	public Ordergoods svaeOrder(long orderid)  {
+		Ordergoods order = new Ordergoods();
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			con = DriverManager.getConnection(url,uid,pwd);
+			st = con.prepareStatement("select * from ordergoods where orderid = ?");
+			st.setLong(1, orderid);
+			rs = st.executeQuery();
+
+			if(rs.next()){
+				order.setOrderid(rs.getLong("orderid")); 
+				order.setUsers(rs.getString("userid"));
+				order.setPersoncount(rs.getLong("personcount"));
+				order.setScreeningplace(rs.getString("screeningplace"));
+				order.setMovietitle(rs.getString("movietitle"));
+				
+			}
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return order;
+	}
 	//¿˙¿Â
+	/*
 	public void moviejoin (MovieName moviename) {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
@@ -77,6 +123,10 @@ public class DBController {	// DAO
 		}
 		
 	}
+	*/
+	
+	
+	/*
 	public MovieName findBymoviename(String movietitle)  {
 		
 		MovieName mv = new MovieName();
@@ -103,6 +153,7 @@ public class DBController {	// DAO
 		}
 		return mv;
 	}
+	*/
 	public Member findById(String userId)  {
 		
 		Member mb = new Member();
@@ -116,7 +167,6 @@ public class DBController {	// DAO
 			if(rs.next()){
 				mb.setUserid(rs.getString("userid"));
 				mb.setUserpw(rs.getString("userpw"));
-				mb.setUserdateofbirth(rs.getTimestamp("userdateofbirth"));
 				mb.setUserhp(rs.getString("userhp"));
 				
 			}

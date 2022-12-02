@@ -1,7 +1,5 @@
 package com.java.ex;
 
-import java.sql.Timestamp;
-
 public class MovieName {
 	private String movietitle;
 	private String movierank;
