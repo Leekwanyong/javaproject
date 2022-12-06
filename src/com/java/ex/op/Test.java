@@ -1,4 +1,4 @@
-package com.java.ex;
+package com.java.ex.op;
 
 import java.awt.EventQueue;
 import java.awt.RenderingHints.Key;
@@ -31,8 +31,12 @@ import java.awt.Color;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
+
+import com.java.ex.DBController;
+import com.java.ex.Member;
+import com.java.ex.MovieName;
+import com.java.ex.Ordergoods;
+
 import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextPane;
@@ -70,9 +74,6 @@ public class Test {
 	private JTextField textField_10;
 	private JTextField textField_11;
 	private JTextField textField_12;
-	private JTextField 수량입력;
-	private JTextField 결제상품입력;
-	private JTextField 카드번호입력창;
 
 	/**
 	 * Launch the application.
@@ -108,85 +109,6 @@ public class Test {
 		frame.setBounds(100, 100, 549, 663);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
-		JPanel storebuy = new JPanel(); // 스토어 결제화면
-		storebuy.setBounds(0, 0, 533, 624);
-		frame.getContentPane().add(storebuy);
-		storebuy.setLayout(null);
-		
-		JPanel panel_5 = new JPanel();
-		panel_5.setBounds(0, 0, 533, 82);
-		storebuy.add(panel_5);
-		panel_5.setLayout(null);
-		panel_5.setBackground(new Color(76, 112, 140));
-		
-		
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(70, 10, 369, 62);
-		panel_5.add(lblNewLabel_1);
-		lblNewLabel_1.setIcon(new ImageIcon("./MovieImg/netflix_logo_icon.png"));
-		
-		JLabel 수량제목 = new JLabel("수량");
-		수량제목.setFont(new Font("굴림", Font.PLAIN, 15));
-		수량제목.setHorizontalAlignment(SwingConstants.CENTER);
-		수량제목.setBounds(12, 136, 57, 30);
-		storebuy.add(수량제목);
-		
-		수량입력 = new JTextField();
-		수량입력.setBounds(105, 129, 416, 46);
-		storebuy.add(수량입력);
-		수량입력.setColumns(10);
-		
-		결제상품입력 = new JTextField();
-		결제상품입력.setBounds(105, 213, 416, 46);
-		storebuy.add(결제상품입력);
-		결제상품입력.setColumns(10);
-		
-		JLabel 결제방법선택 = new JLabel("결제 방법");
-		결제방법선택.setFont(new Font("굴림", Font.PLAIN, 15));
-		결제방법선택.setHorizontalAlignment(SwingConstants.CENTER);
-		결제방법선택.setBounds(12, 226, 84, 18);
-		storebuy.add(결제방법선택);
-		
-		JLabel 카드번호 = new JLabel("카드 번호");
-		카드번호.setFont(new Font("굴림", Font.PLAIN, 15));
-		카드번호.setHorizontalAlignment(SwingConstants.CENTER);
-		카드번호.setBounds(7, 332, 89, 15);
-		storebuy.add(카드번호);
-		
-		카드번호입력창 = new JTextField();
-		카드번호입력창.setBounds(105, 314, 416, 51);
-		storebuy.add(카드번호입력창);
-		카드번호입력창.setColumns(10);
-		
-		JButton btnNewButton = new JButton("확인");
-		btnNewButton.setFont(new Font("굴림", Font.PLAIN, 15));
-		btnNewButton.setBounds(12, 444, 509, 70);
-		storebuy.add(btnNewButton);
-		
-		JPanel storeOk = new JPanel();	// 스토어 구매확인화면 
-		storeOk.setBounds(0, 0, 533, 624);
-		frame.getContentPane().add(storeOk);
-		storeOk.setLayout(null);
-		storeOk.setVisible(false);
-		
-		
-		
-		
-		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(0, 0, 533, 84);
-		storeOk.add(panel_4);
-		panel_4.setLayout(null);
-		panel_4.setBackground(new Color(76, 112, 140));
-		
-		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(107, 10, 327, 64);
-		lblNewLabel.setIcon(new ImageIcon("./MovieImg/netflix_logo_icon.png"));
-		panel_4.add(lblNewLabel);
-		
 
 		JPanel storePage = new JPanel();
 		storePage.setBounds(0, 0, 531, 624);
@@ -204,22 +126,12 @@ public class Test {
 		lblNewLabel_22.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_22.setBounds(95, 10, 347, 64);
 		panel_3.add(lblNewLabel_22);
-	
-		storebuy.setVisible(false);
-		
+
 		JButton btnNewButton_8 = new JButton("");
 		btnNewButton_8.setIcon(new ImageIcon("./MovieImg/popcorn.jpg"));
 		btnNewButton_8.setBounds(35, 103, 182, 181);
 		storePage.add(btnNewButton_8);
 		btnNewButton_8.setBackground(Color.WHITE);
-		btnNewButton_8.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				storebuy.setVisible(true);
-				storePage.setVisible(false);
-			}
-		});
 
 		JButton btnNewButton_9 = new JButton("");
 		btnNewButton_9.setForeground(Color.WHITE);
@@ -259,8 +171,6 @@ public class Test {
 		btnNewButton_12.setBackground(new Color(36, 138, 220));
 		btnNewButton_12.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				storeOk.setVisible(true);
-				storePage.setVisible(false);
 
 			}
 		});
@@ -642,6 +552,28 @@ public class Test {
 		btnNewJoin.setBackground(new Color(31, 138, 220));
 		LoginPage.add(btnNewJoin);
 
+		JLabel idLabel = new JLabel("\uC544\uC774\uB514 \uCC3E\uAE30");
+		idLabel.setForeground(new Color(255, 255, 255));
+
+		idLabel.addMouseListener(new MouseAdapter() { // 占쏙옙占싱듸옙 찾占쏙옙 占쏙옙占쎌스 클占쏙옙 占싱븝옙트
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				mainPage.setVisible(false);
+				LoginPage.setVisible(false);
+				findIdPage.setVisible(false);
+			}
+		});
+
+		idLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		idLabel.setBounds(42, 559, 165, 18);
+		LoginPage.add(idLabel);
+
+		JLabel pwLabel = new JLabel("\uBE44\uBC00\uBC88\uD638 \uCC3E\uAE30");
+		pwLabel.setForeground(new Color(255, 255, 255));
+		pwLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		pwLabel.setBounds(343, 559, 149, 18);
+		LoginPage.add(pwLabel);
+
 		JLabel iconCgvImg = new JLabel("");
 		iconCgvImg.setIcon(new ImageIcon("./MovieImg/netflix_logo_icon.png"));
 		iconCgvImg.setBounds(119, 95, 297, 118);
@@ -658,6 +590,15 @@ public class Test {
 		pwText.setColumns(10);
 		pwText.setBounds(42, 300, 450, 58);
 		LoginPage.add(pwText);
+
+		pwLabel.addMouseListener(new MouseAdapter() { // 占쏙옙橘占싫� 찾占쏙옙 占쏙옙占쎌스 클占쏙옙 占싱븝옙트
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				mainPage.setVisible(false);
+				LoginPage.setVisible(false);
+				findIdPage.setVisible(false);
+			}
+		});
 
 		JButton btnmovie = new JButton("");
 		btnmovie.setBackground(new Color(31, 138, 220));
@@ -996,10 +937,6 @@ public class Test {
 		btnNewButton_7.setBounds(35, 534, 440, 59);
 		mycgvPage.add(btnNewButton_7);
 		btnNewButton_7.setBackground(new Color(31, 138, 220));
-		
-		
-		
-		
 
 		btnNewButton_7.addActionListener(new ActionListener() {
 

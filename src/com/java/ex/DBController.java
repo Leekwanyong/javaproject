@@ -19,7 +19,62 @@ public class DBController {	// DAO
 	PreparedStatement st = null;
 	ResultSet rs = null;
 	
+	public void store(Store sto) {
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			con = DriverManager.getConnection(url,uid,pwd);
+			st = con.prepareStatement(
+					"insert into store(storecount,storepayment storepaymentconfirm,storetotalprice,storetitle) values(?,?,?,?,?)");
 	
+			//hashcode 
+			
+			st.setLong(1, sto.getStorecount());
+			st.setString(2, sto.getStorepeyment());
+			st.setString(3, sto.getStorepaymentconfirm());
+			st.setLong(4, sto.getStoretotalprice());
+			st.setString(5, sto.getStoretitle());
+			/*
+			st.setLong(1, store.getstorecount);
+			st.setLong(2, order.getPersoncount());
+			st.setString(3,  order.getScreeningplace());
+			st.setString(4, order.getMovietitle());
+			*/
+			
+			st.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public Store svaestore(long storeid)  {
+		Store store = new Store();
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			con = DriverManager.getConnection(url,uid,pwd);
+			st = con.prepareStatement("select * from ordergoods where storeid = ?");
+			st.setLong(1, storeid);
+			rs = st.executeQuery();
+
+			if(rs.next()){
+				
+				store.setStoreid(rs.getLong("storid"));
+				store.setStorecount(rs.getLong("storecount"));
+				store.setStorepeyment(rs.getString("storepayment"));
+				store.setStorepaymentconfirm(rs.getString("storepaymentconfirm"));
+				store.setStoretitle(rs.getString("storetitle"));
+			}
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return store;
+	}
+
 	
 	public void ordergoods(Ordergoods order) {
 		try {
@@ -96,7 +151,7 @@ public class DBController {	// DAO
 		}
 		return order;
 	}
-	//ÀúÀå
+	//ï¿½ï¿½ï¿½ï¿½
 	/*
 	public void moviejoin (MovieName moviename) {
 		try {
@@ -192,7 +247,7 @@ public class DBController {	// DAO
 		// member.setUserpw("test");
 		// member.setUserhp("010-0000-0000");
 		// new DBController().join(member);
-		// new DBController().findById("1"); DB ¿¬°á È®ÀÎ
-		// System.out.println(new DBController().findById("1")); DB ¿¬°á È®ÀÎ
+		// new DBController().findById("1"); DB ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+		// System.out.println(new DBController().findById("1")); DB ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 	}
 }

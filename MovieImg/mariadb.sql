@@ -24,6 +24,17 @@ create table ordergoods(
 	screeningplace varchar(50),
 	movietitle varchar(50)
 );
+ create table store(
+	storeid bigint primary key AUTO_INCREMENT,
+	storecount bigint,
+	storepayment varchar(50),
+	storepaymentconfirm varchar(50),
+	storetotalprice bigint,
+	
+
+ );
+
+
 alter table ordergoods convert to character set utf8;
 alter table moviename convert to character set utf8;
 alter table member convert to character set utf8;
