@@ -6,6 +6,7 @@ public class Member {	// DTO
 	private String userid;
 	private String userpw;
 	private String userhp;
+	private int role;
 	
 	public Member() {
 		
@@ -34,6 +35,12 @@ public class Member {	// DTO
 	}
 	public void setUserhp(String userhp) {
 		this.userhp = userhp;
+	}
+	public int getRole() {
+		return role;
+	}
+	public void setRole(int role) {
+		this.role = role;
 	}
 	
 }

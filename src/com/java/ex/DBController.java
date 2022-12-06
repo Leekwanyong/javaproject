@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DBController {	// DAO
@@ -75,22 +77,74 @@ public class DBController {	// DAO
 		return store;
 	}
 
-	
+	public Movie getMoive(String title){
+		Movie movie = new Movie();
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			con = DriverManager.getConnection(url,uid,pwd);
+			st = con.prepareStatement(
+					"select * from movie where title = ?");
+			st.setString(1,title);
+			rs = st.executeQuery();
+			if(rs.next()){
+				String m_title = rs.getString("m_title");
+				String img = rs.getString("img");
+				long price = rs.getLong("price");
+				movie.setTitle(m_title);
+				movie.setImg(img);
+				movie.setPrice(price);
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return movie;
+	}
+	public List<Ordergoods> getOrderList() {
+		List<Ordergoods> list = new ArrayList<>();
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			con = DriverManager.getConnection(url,uid,pwd);
+			st = con.prepareStatement(
+					"select * from ordergoods");
+			rs = st.executeQuery();
+			while(rs.next()) {
+				Ordergoods order = new Ordergoods();
+				order.setMovietitle(rs.getString("title"));
+				order.setOrderid(rs.getLong("orderid"));
+				order.setUserid(rs.getNString("userid"));
+				order.setPersoncount(rs.getLong("personcount"));
+				order.setScreeningplace(rs.getString("screeningplace"));
+				order.setSaleprice(rs.getLong("saleprice"));
+				list.add(order);
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 	public void ordergoods(Ordergoods order) {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 			con = DriverManager.getConnection(url,uid,pwd);
 			st = con.prepareStatement(
-					"insert into ordergoods(users,personcount, screeningplace,movietitle) values(?,?,?,?)");
+					"insert into ordergoods(userid,personcount, screeningplace, title, saleprice) values(?,?,?,?,?)");
 	
 			//hashcode 
 			System.out.println("db order"+order.getMovietitle());
 			
-			st.setString(1, order.getUsers());
+			st.setString(1, order.getUserid());
 			st.setLong(2, order.getPersoncount());
 			st.setString(3,  order.getScreeningplace());
 			st.setString(4, order.getMovietitle());
+			// 珥� 媛�寃⑹쓣 援ы븯�뒗 濡쒖쭅 �엯�땲�떎. 
 			
+			Long salePrice = order.getSaleprice() * order.getPersoncount();
+			st.setLong(5, salePrice);
+
 			st.executeUpdate();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -135,7 +189,7 @@ public class DBController {	// DAO
 
 			if(rs.next()){
 				order.setOrderid(rs.getLong("orderid")); 
-				order.setUsers(rs.getString("userid"));
+				order.setUserid(rs.getString("userid"));
 				order.setPersoncount(rs.getLong("personcount"));
 				order.setScreeningplace(rs.getString("screeningplace"));
 				order.setMovietitle(rs.getString("movietitle"));
@@ -151,7 +205,7 @@ public class DBController {	// DAO
 		}
 		return order;
 	}
-	//����
+	//占쏙옙占쏙옙
 	/*
 	public void moviejoin (MovieName moviename) {
 		try {
@@ -223,6 +277,7 @@ public class DBController {	// DAO
 				mb.setUserid(rs.getString("userid"));
 				mb.setUserpw(rs.getString("userpw"));
 				mb.setUserhp(rs.getString("userhp"));
+				mb.setRole(rs.getInt("role"));
 				
 			}
 			
@@ -247,7 +302,7 @@ public class DBController {	// DAO
 		// member.setUserpw("test");
 		// member.setUserhp("010-0000-0000");
 		// new DBController().join(member);
-		// new DBController().findById("1"); DB ���� Ȯ��
-		// System.out.println(new DBController().findById("1")); DB ���� Ȯ��
+		// new DBController().findById("1"); DB 占쏙옙占쏙옙 확占쏙옙
+		// System.out.println(new DBController().findById("1")); DB 占쏙옙占쏙옙 확占쏙옙
 	}
 }

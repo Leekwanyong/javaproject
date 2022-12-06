@@ -2,21 +2,13 @@ package com.java.ex;
 
 public class Ordergoods {
 	private long orderid;
-	private String users;
+	private String userid;
 	private long personcount;
 	private String screeningplace;
 	private String movietitle;
+	private long saleprice;
 	
 	public Ordergoods() {
-		
-	}
-	
-	public Ordergoods(long orderid, String users, long personcount, String screeningplace, String movietitle) {
-	this.orderid = orderid;
-	this.users = users;
-	this.personcount = personcount;
-	this.screeningplace = screeningplace;
-	this.movietitle = movietitle;
 		
 	}
 
@@ -28,13 +20,7 @@ public class Ordergoods {
 		this.orderid = orderid;
 	}
 
-	public String getUsers() {
-		return users;
-	}
-
-	public void setUsers(String users) {
-		this.users = users;
-	}
+	
 
 	public long getPersoncount() {
 		return personcount;
@@ -59,5 +45,27 @@ public class Ordergoods {
 	public void setMovietitle(String movietitle) {
 		this.movietitle = movietitle;
 	}
+
+	public long getSaleprice() {
+		return saleprice;
+	}
+
+	public void setSaleprice(long saleprice) {
+		this.saleprice = saleprice;
+	}
+
+
+
+	public String getUserid() {
+		return userid;
+	}
+
+
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+	
 	
 }
